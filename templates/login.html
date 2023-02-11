@@ -18,34 +18,38 @@
     <style>
 
 
-.mybigtitle {
-    color: green;
+        .mybigtitle {
+            color: green;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
 
     </style>
     <script>
         function login_post() {
             let user_name = $('#input_id').val()
-            let user_pwd = $('#input_pwd').val()
-
+            let user_pwd = $('#input_pw').val()
+            console.log(user_name,user_pwd)
             $.ajax({
                 type: "POST",
                 url: "/login",
-                data: {name_give: user_name, pwd_give: user_pwd},
+                data: {
+                    username_give: user_name,
+                    password_give: user_pwd
+                },
                 success: function (response) {
-                    if (response['msg'] == '로그인 되었습니다.') {
-                        alert(response['msg'])
-                        location.href='/signup.html'
+                    console.log(response)
+                    if (response['result'] == 'success') {
+                        $.cookie('mytoken', response['token'], {path: '/'});
+                        window.location.replace("/main.html")
                     } else {
-                        alert(response['msg2'])
+                        alert(response['msg'])
                     }
                 }
-            })
+            });
         }
 
     </script>
@@ -59,8 +63,8 @@
     <div class="IDPW">
         <p>ID: <input id="input_id" type="text"/></p>
         <p>PW: <input id="input_pw" type="text"/></p>
-        <button onclick="login_post()" type="button" >login</button>
-        <button onclick="window.location.href='/signup.html'">회원가입 </button>
+        <button onclick="login_post()" type="button">login</button>
+        <button type="button" onclick="window.location.href='/signup.html'">회원가입</button>
     </div>
 
 
