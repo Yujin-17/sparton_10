@@ -17,8 +17,8 @@
     <title>회원가입 페이지</title>
 
     <style>
-        * {
-            font-family: 'Sunflower', sans-serif;
+        *{
+            font-family: 'Song Myung', serif;
         }
 
         input::placeholder {
@@ -27,10 +27,15 @@
             font-style: italic;
         }
 
-        body {
-            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://d3mvlb3hz2g78.cloudfront.net/wp-content/uploads/2018/11/dreamstime_l_99978767_1.jpg');
-            background-position: center;
+        body{
+            background-image: url('https://st2.depositphotos.com/1518767/10901/i/450/depositphotos_109011056-stock-photo-composite-image-of-rough-blue.jpg');
+            /*background-image: url('https://t1.daumcdn.net/cfile/blog/16156B355076AD401D');*/
+            background-repeat: no-repeat;
             background-size: cover;
+            /*box-shadow : rgba(0,0,0,0.5) 0 0 0 9999px;*/
+            /*background-position: center 40%;*/
+            /*background-size: auto;*/
+            /*background-size: auto;*/
         }
 
         h1 {
@@ -50,23 +55,44 @@
 
         .info {
 
-            color: white;
+
             width: 500px;
 
             margin: 30px auto 40px auto;
             padding: 10px;
-            box-shadow: 0px 0px 3px 0px gray;
             align-items: center;
 
 
+        }
+
+
+        div {
+          width : 500px;
+          height: 50px;
+
+        }
+
+        #none {
+           border: none 10px;
         }
 
         .form-control {
             margin-bottom: 20px;
         }
 
+        .btn-grid
+        {
+            margin: -2px 0;
+        }
+
+        .btn-grid > .btn
+        {
+            margin: 5px 0;
+        }
+
 
     </style>
+
     <script>
         $(document).ready(function () {
 
@@ -115,7 +141,6 @@
     <div>
         <input type="nickname" class="form-control" id="name" placeholder="닉네임">
     </div>
-
     <div>
         <input class="form-control" id="password" placeholder="비밀번호">
     </div>
@@ -124,11 +149,11 @@
         <input class="form-control" id="password-check" placeholder="비밀번호확인">
     </div>
 
-    <div class="btn-toolbar">
+    <div class="btn-grid" id="buttons" >
         <button id='button1' onclick="window.location.href='/'" type="button"
-                class="w-100 btn btn-secondary btn-lg btn-bloc mr-2">돌아가기
+                class="w-100 btn btn-secondary btn-sm btn-bloc btn-primary-spacing">돌아가기
         </button>
-        <button id='button2' onclick="sign_up()">가입하기</button>
+        <button id='button2' onclick="sign_up()" class="w-100 btn btn-primary btn-sm btn-block btn-primary-spacing">가입하기</button>
     </div>
 </div>
 </body>
