@@ -17,15 +17,15 @@
     <title>회원가입 페이지</title>
 
     <style>
-      * {
-        font-family: 'Sunflower', sans-serif;
-      }
+        * {
+            font-family: 'Sunflower', sans-serif;
+        }
 
-      input::placeholder {
-        color: peru;
-        font-weight: 600;
-        font-style: italic;
-      }
+        input::placeholder {
+            color: peru;
+            font-weight: 600;
+            font-style: italic;
+        }
 
         body {
             background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://d3mvlb3hz2g78.cloudfront.net/wp-content/uploads/2018/11/dreamstime_l_99978767_1.jpg');
@@ -35,79 +35,95 @@
 
         h1 {
             font-weight: bold;
-            color : white;
-            text-align : center;
-            padding-top : 40px;
+            color: white;
+            text-align: center;
+            padding-top: 40px;
         }
 
         p {
             font-weight: bold;
-            color : white;
-            text-align : center;
-            padding-top : 40px;
+            color: white;
+            text-align: center;
+            padding-top: 40px;
         }
 
 
-        .info{
+        .info {
 
-            color : white;
+            color: white;
             width: 500px;
 
-            margin : 30px auto 40px auto;
+            margin: 30px auto 40px auto;
             padding: 10px;
             box-shadow: 0px 0px 3px 0px gray;
             align-items: center;
 
 
-      }
+        }
 
-      .form-control {
+        .form-control {
             margin-bottom: 20px;
-      }
-
+        }
 
 
     </style>
     <script>
         $(document).ready(function () {
-            move_to_main();
+
         });
 
         function sign_up() {
+            let username = $("#name").val()
+            let password = $("#password").val()
+            let password_check = $("#password-check").val()
+            console.log(username, password, password_check)
 
-            let name = $('#name').val()
-            let pw = $('#password').val()
-            let pw_check = $('#password-check').val()
-            console.log(name, pw, pw_check)
+            $.ajax({
+                type: "POST",
+                url: "/sign",
+                data: {
+                    name_give: username,
+                    pwd_give: password,
+                    pwd_re_give: password_check
+                },
+                success: function (response) {
+                    alert("회원가입을 축하드립니다!")
+                    window.location.replace("/")
+                }
+            });
+
         }
+
 
 
     </script>
 </head>
 <body>
-    <h1> 나의 항해 일지</h1>
-    <p>
-        항해99 부트캠프에서 배운 것들을<br/>
-        다같이 공유하기 위한 "나의 항해 일지"
-    </p>
-    <div class="info">
+<h1> 나의 항해 일지</h1>
+<p>
+    항해99 부트캠프에서 배운 것들을<br/>
+    다같이 공유하기 위한 "나의 항해 일지"
+</p>
+<div class="info">
 
-        <div>
-          <input type="nickname" class="form-control" id="name" placeholder="닉네임">
-        </div>
-
-        <div>
-          <input class="form-control" id="password" placeholder="비밀번호">
-        </div>
-
-        <div>
-          <input class="form-control" id="password-check" placeholder="비밀번호확인">
-        </div>
-
-        <div class="btn-toolbar">
-            <button  id='button1' onclick="window.location.href='/'" type="button" class="w-100 btn btn-secondary btn-lg btn-bloc mr-2">돌아가기</button>
-            <button id='button2' onclick="window.location.href='/main.html'">가입하기</button>
-        </div>
+    <div>
+        <input type="nickname" class="form-control" id="name" placeholder="닉네임">
     </div>
+
+    <div>
+        <input class="form-control" id="password" placeholder="비밀번호">
+    </div>
+
+    <div>
+        <input class="form-control" id="password-check" placeholder="비밀번호확인">
+    </div>
+
+    <div class="btn-toolbar">
+        <button id='button1' onclick="window.location.href='/'" type="button"
+                class="w-100 btn btn-secondary btn-lg btn-bloc mr-2">돌아가기
+        </button>
+        <button id='button2' onclick="sign_up()">가입하기</button>
+    </div>
+</div>
 </body>
 </html>
