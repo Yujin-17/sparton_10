@@ -73,29 +73,12 @@
             move_to_main();
         });
 
-
-        function return_to_login() {
-
-            $(location).attr('href', 'http://stackoverflow.com')}
-            // 페이지 주소 바꾸기
-
-        function sign_post() {
+        function sign_up() {
 
             let name = $('#name').val()
             let pw = $('#password').val()
             let pw_check = $('#password-check').val()
-
-
-              $.ajax({
-                type: 'POST',
-                url: '/sign',
-                data: {name_give: name, pwd_give: pw, pwd_re_give: pw_check},
-
-                success: function (response) {
-                    alert(response['msg'])
-
-                }
-            })
+            console.log(name, pw, pw_check)
         }
 
 
@@ -123,13 +106,8 @@
 
         <div class="btn-toolbar">
             <button  id='button1' onclick="window.location.href='/'" type="button" class="w-100 btn btn-secondary btn-lg btn-bloc mr-2">돌아가기</button>
-
             <button id='button2' onclick="window.location.href='/main.html'">가입하기</button>
-
-
         </div>
-
     </div>
-
 </body>
 </html>

@@ -21,37 +21,41 @@ def test():
 def test2():
     return render_template('main.html')
 
-@app.route("/login", methods=["POST"])
-def login_post():
-    login_name = request.form['name_give']
-    login_pwd = request.form['pwd_give']
-    match_name = db.info.find_one({'name': login_name})
-    match_pwd = db.info.find_one({'pwd': login_pwd})
-
-    if login_name == match_name and login_pwd == match_pwd:
-        return jsonify({'msg': '로그인 되었습니다.'})
-    else:
-        return jsonify({'msg2': '닉네임 또는 비밀번호가 일치하지 않습니다'})
-
+# @app.route("/login", methods=["POST"])
+# def login_post():
+#     login_name = request.form['name_give']
+#     login_pwd = request.form['pwd_give']
+#
+#
+#     pw_hash = hashlib.sha256(login_pwd.encode('utf-8')).hexdigest()  # 유저가 입력한 pw를 해쉬화
+#     result = db.users.find_one({'username': login_name, 'password': pw_hash})
+#     # 아이디와 유저가 입력한 해쉬화된 pw가 DB에 저장되어 있는 해쉬화된 pw와 일치하는지 확인
+#
+#     if result is not None:  # 일치한다면
+#         payload = {
+#             'id': login_name,
+#             'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
+#         }
+#         # 유저 아이디와 유효기간을 담고 있는 payload 생성
+#         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')  # jwt기반 토큰 생성
+#
+#         return jsonify({'result': 'success', 'token': token})
+#     else:
+#         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
 @app.route("/sign", methods=["POST"])
 def sign_post():
     user_name = request.form['name_give']
     user_pwd = request.form['pwd_give']
     user_pwd_re = request.form['pwd_re_give']
-    user_list = list(db.info.find({},{'_id':False}))['name']
-
-    if (user_name in user_list) or (user_pwd != user_pwd_re):
-        return jsonify({'msg': '닉네임 중복 또는 비밀번호가 일치하지 않습니다'})
-    else:
-        doc = {
-            'name': user_name,
-            'pwd': user_pwd
-        }
-        db.info.insert_one(doc)
-
-        return jsonify({'msg':'가입이 완료 되었습니다'})
-
+    password_hash = hashlib.sha256(user_pwd.encode('utf-8')).hexdigest()
+    doc = {
+        "username": user_name,  # 아이디
+        "password": password_hash,  # 비밀번호
+        "nickname": user_pwd_re,  # 닉네임
+    }
+    db.info.insert_one(doc)  # 유저가 입력한 아이디 pw 닉네임을 DB에 저장
+    return jsonify({'result': 'success'})
 
 @app.route("/main", methods=["POST"])
 def save_main():
