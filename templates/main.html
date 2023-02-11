@@ -14,20 +14,29 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
 
-    <title>메인페이지</title>
+     <title>메인페이지</title>
 
     <style>
         * {
-            font-family: 'Gowun Dodum', sans-serif;
+            font-family: 'Song Myung', serif;
+
+        }
+
+        body{
+            background-image: url('https://st2.depositphotos.com/1518767/10901/i/450/depositphotos_109011056-stock-photo-composite-image-of-rough-blue.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            box-shadow : rgba(0,0,0,0.5) 0 0 0 9999px;
         }
 
         .mypic {
             width: 100%;
             height: 200px;
 
-            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://hanghae99.spartacodingclub.kr/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.6f8c4c39.png&w=1920&q=75');
-            background-position: center;
-            background-size: cover;
+            /*background-image: url('https://st2.depositphotos.com/1518767/10901/i/450/depositphotos_109011056-stock-photo-composite-image-of-rough-blue.jpg');*/
+            /*background-repeat: no-repeat;*/
+            /*background-size: cover;*/
+            /*box-shadow : rgba(0,0,0,0.5) 0 0 0 9999px;*/
 
             color: white;
 
@@ -41,13 +50,39 @@
             font-size: 30px;
         }
 
-        .mybox {
+        .mylog {
             width: 95%;
             max-width: 700px;
             padding: 20px;
             box-shadow: 0px 0px 10px 0px lightblue;
             margin: 20px auto;
+            /*background-image: url('https://velog.velcdn.com/images/mjw92/post/72a030e7-b0fc-4003-8768-cb67de049baf/image.png');*/
+            /*background-repeat: no-repeat;*/
+            /*background-size: 300px;*/
+
         }
+
+
+
+        /*.mybox {*/
+        /*    width: 95%;*/
+        /*    max-width: 700px;*/
+        /*    padding: 20px;*/
+        /*    box-shadow: 0px 0px 10px 0px lightblue;*/
+        /*    margin: 20px auto;*/
+        /*    background-image: url('https://velog.velcdn.com/images/mjw92/post/72a030e7-b0fc-4003-8768-cb67de049baf/image.png');*/
+        /*    background-repeat: no-repeat;*/
+        /*    background-size: 300px;*/
+
+        /*}*/
+
+        .col-auto{
+            margin-top: -20px;
+            margin-bottom: 0px;
+            color : #f8f8f8;
+            padding : 15px;
+        }
+
 
 
         .mybox > li {
@@ -72,25 +107,30 @@
             text-decoration: line-through
         }
     </style>
+
     <script>
         $(document).ready(function () {
-            show_list()
+
+            check_access_token()
         });
 
-        function show_list() {
+        function check_access_token() {
+
             $.ajax({
                 type: "GET",
-                url: "/main",
+                url: "/main/name",
                 data: {},
                 success: function (response) {
-                    let rows = response['show']
+
+                        let rows = response['show']
 
                    for (let i = 0; i <rows.length; i++){
                         let titles = rows[i]['titles']
                         let descs = rows[i]['descs']
                         let comments = rows[i]['comments']
+                       let name = rows[i]['name']
 
-                        let temp_html = `<div style="color: blue">(닉네임) : (이유진)</div>
+                        let temp_html = `<div style="color: #ffffff">${name}</div>
                                             <hr>
                                             <tr>
                                                 무엇이 어려웠나요?
@@ -132,13 +172,16 @@
 
 
 
+
+
     </script>
 </head>
 <body>
-<div class="mypic">
+<div style="font-size:1.5em;">
+  <div class="mypic">
     <h1>나의 항해일지</h1>
 </div>
-<div class="mybox">
+<div class="mylog">
     <div class="row g-3 align-items-center">
         <div class="col-auto">
             <label class="col-form-label">무엇이 어려웠나요?</label>
@@ -167,8 +210,12 @@
         <button onclick="save_main()" type="button" class="btn btn-warning mybtn">저장하기</button>
     </div>
 </div>
-<div class="mybox" id="show-list">
+<!--    <div class="mylog" id="show-list">-->
+<div class="mybox" id="show-list" style="color: aliceblue">
 
 </div>
+
+</div>
+
 </body>
 </html>

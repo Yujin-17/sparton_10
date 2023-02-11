@@ -3,7 +3,7 @@ import hashlib
 from datetime import datetime, timedelta
 
 import jwt
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, current_app
 
 app = Flask(__name__)
 app.SECRET_KEY = '123'
@@ -72,20 +72,28 @@ def save_main():
     titles_receive = request.form['titles_give']
     descs_receive = request.form['descs_give']
     comments_receive = request.form['comments_give']
+    mytoken = request.cookies.get('mytoken')
+    payload = jwt.decode(mytoken, app.SECRET_KEY, "HS256")
+    print(payload)
+    name = payload['id']
+
     print(titles_receive, descs_receive,comments_receive)
     doc = {
         'titles':titles_receive,
         'descs':descs_receive,
-        'comments':comments_receive
+        'comments':comments_receive,
+        'name':name
     }
-    db.show.insert_one(doc)
+    db.info.insert_one(doc)
+
     return jsonify({'msg':  '저장 완료!'})
 
-@app.route("/main", methods=["GET"])
-def show_get():
-    show_list = list(db.show.find({}, {'_id': False}))
+@app.route("/main/name", methods=["GET"])
+def check_access_token():
+    show_list = list(db.info.find({}, {'_id': False}))
+    # payload = jwt.decode(mytoken, app.SECRET_KEY, "HS256")
+    # name = payload['id']
     return jsonify({'show':show_list})
-
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
