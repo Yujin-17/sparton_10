@@ -46,23 +46,26 @@ def login_post():
         # 유저 아이디와 유효기간을 담고 있는 payload 생성
         token = jwt.encode(payload, app.SECRET_KEY, algorithm='HS256')  # jwt기반 토큰 생성
 
-        return jsonify({'result': 'success', 'mytoken': token})
+        return jsonify({'response': 'success', 'mytoken': token})
     else:
-        return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
+        return jsonify({'response': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
 @app.route("/sign", methods=["POST"])
 def sign_post():
     user_name = request.form['name_give']
     user_pwd = request.form['pwd_give']
     user_pwd_re = request.form['pwd_re_give']
-# // todo
-    password_hash = hashlib.sha256(user_pwd.encode('utf-8')).hexdigest()
-    doc = {
-        "username": user_name,  # 아이디
-        "password": password_hash,  # 비밀번호
-    }
-    db.info.insert_one(doc)  # 유저가 입력한 아이디, pw DB에 저장
-    return jsonify({'response': 'success'})
+    print(user_pwd, user_pwd_re)
+    if (user_pwd_re == user_pwd):
+        password_hash = hashlib.sha256(user_pwd.encode('utf-8')).hexdigest()
+        doc = {
+            "username": user_name,  # 아이디
+            "password": password_hash,  # 비밀번호
+        }
+        db.info.insert_one(doc)  # 유저가 입력한 아이디, pw DB에 저장
+        return jsonify({'result': 'success'})
+    else:
+        return jsonify({'result': 'fail','msg': '비밀번호가 일치하지 않습니다.'})
 
 @app.route("/main", methods=["POST"])
 def save_main():
