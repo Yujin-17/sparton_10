@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="shortcut icon" href="#">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <title>회원가입 페이지</title>
+
+    <style>
+      * {
+        font-family: 'Sunflower', sans-serif;
+      }
+
+      input::placeholder {
+        color: peru;
+        font-weight: 600;
+        font-style: italic;
+      }
+
+        body {
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://d3mvlb3hz2g78.cloudfront.net/wp-content/uploads/2018/11/dreamstime_l_99978767_1.jpg');
+            background-position: center;
+            background-size: cover;
+        }
+
+        h1 {
+            font-weight: bold;
+            color : white;
+            text-align : center;
+            padding-top : 40px;
+        }
+
+        p {
+            font-weight: bold;
+            color : white;
+            text-align : center;
+            padding-top : 40px;
+        }
+
+
+        .info{
+
+            color : white;
+            width: 500px;
+
+            margin : 30px auto 40px auto;
+            padding: 10px;
+            box-shadow: 0px 0px 3px 0px gray;
+            align-items: center;
+
+
+      }
+
+      .form-control {
+            margin-bottom: 20px;
+      }
+
+
+
+    </style>
+    <script>
+        $(document).ready(function () {
+            move_to_main();
+        });
+
+
+        function return_to_login() {
+
+            $(location).attr('href', 'http://stackoverflow.com')}
+            // 페이지 주소 바꾸기
+
+        function sign_post() {
+
+            let name = $('#name').val()
+            let pw = $('#password').val()
+            let pw_check = $('#password-check').val()
+
+
+              $.ajax({
+                type: 'POST',
+                url: '/sign',
+                data: {name_give: name, pwd_give: pw, pwd_re_give: pw_check},
+
+                success: function (response) {
+                    alert(response['msg'])
+
+                }
+            })
+        }
+
+
+    </script>
+</head>
+<body>
+    <h1> 나의 항해 일지</h1>
+    <p>
+        항해99 부트캠프에서 배운 것들을<br/>
+        다같이 공유하기 위한 "나의 항해 일지"
+    </p>
+    <div class="info">
+
+        <div>
+          <input type="nickname" class="form-control" id="name" placeholder="닉네임">
+        </div>
+
+        <div>
+          <input class="form-control" id="password" placeholder="비밀번호">
+        </div>
+
+        <div>
+          <input class="form-control" id="password-check" placeholder="비밀번호확인">
+        </div>
+
+        <div class="btn-toolbar">
+            <button  id='button1' onclick="window.location.href='/'" type="button" class="w-100 btn btn-secondary btn-lg btn-bloc mr-2">돌아가기</button>
+
+            <button id='button2' onclick="return (function(){var ret = sign_post(); test(); return ret;})();" type="button" class="w-100 btn btn-primary btn-lg btn-block mr-2">가입하기</button>
+
+
+        </div>
+
+    </div>
+
+</body>
+</html>

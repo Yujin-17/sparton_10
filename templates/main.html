@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+
+    <title>메인페이지</title>
+
+    <style>
+        * {
+            font-family: 'Gowun Dodum', sans-serif;
+        }
+
+        .mypic {
+            width: 100%;
+            height: 200px;
+
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://hanghae99.spartacodingclub.kr/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.6f8c4c39.png&w=1920&q=75');
+            background-position: center;
+            background-size: cover;
+
+            color: white;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mypic > h1 {
+            font-size: 30px;
+        }
+
+        .mybox {
+            width: 95%;
+            max-width: 700px;
+            padding: 20px;
+            box-shadow: 0px 0px 10px 0px lightblue;
+            margin: 20px auto;
+        }
+
+
+        .mybox > li {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 10px;
+            min-height: 48px;
+        }
+
+        .mybox > li > h2 {
+            max-width: 75%;
+            font-size: 20px;
+            font-weight: 500;
+            margin-right: auto;
+            margin-bottom: 0px;
+        }
+
+        .mybox > li > h2.done {
+            text-decoration: line-through
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            show_list()
+        });
+
+        function show_list() {
+            $.ajax({
+                type: "GET",
+                url: "/main",
+                data: {},
+                success: function (response) {
+                    let rows = response['show']
+
+                   for (let i = 0; i <rows.length; i++){
+                        let titles = rows[i]['titles']
+                        let descs = rows[i]['descs']
+                        let comments = rows[i]['comments']
+
+                        let temp_html = `<div style="color: blue">(닉네임) : (이유진)</div>
+                                            <hr>
+                                            <tr>
+                                                무엇이 어려웠나요?
+                                                <td> ${titles} </td>
+                                                <br>
+                                                어떤 시도를 했나요?
+                                                <td> ${descs} </td>
+                                                <br>
+                                                결국 어떻게 해결했나요?
+                                                <td> ${comments} </td>
+                                                <br>
+                                            </tr>
+                                            <hr>`
+
+
+                        $('#show-list').append(temp_html)
+                    }
+
+                }
+            });
+        }
+        function save_main() {
+            let titles = $('#titles').val()
+            let descs = $('#descs').val()
+            let comments = $('#comments').val()
+            console.log(titles,descs,comments)
+
+            $.ajax({
+                type: 'POST',
+                url: '/main',
+                data: {titles_give: titles, descs_give: descs, comments_give: comments},
+                success: function (response) {
+                    alert(response['msg'])
+                    window.location.reload()
+                }
+            });
+        }
+
+
+
+
+    </script>
+</head>
+<body>
+<div class="mypic">
+    <h1>나의 항해일지</h1>
+</div>
+<div class="mybox">
+    <div class="row g-3 align-items-center">
+        <div class="col-auto">
+            <label class="col-form-label">무엇이 어려웠나요?</label>
+        </div>
+        <div class="col-auto">
+            <input size="100" type="" id="titles" class="form-control">
+        </div>
+
+    </div>
+    <div class="row g-3 align-items-center">
+        <div class="col-auto">
+            <label class="col-form-label">어떤 시도를 했나요?</label>
+        </div>
+        <div class="col-auto">
+            <input size="100" type="" id="descs" class="form-control">
+        </div>
+
+    </div>
+    <div class="row g-3 align-items-center">
+        <div class="col-auto">
+            <label class="col-form-label">결국 어떻게 해결했나요?</label>
+        </div>
+        <div class="col-auto">
+            <input size="100" type="" id="comments" class="form-control">
+        </div>
+        <button onclick="save_main()" type="button" class="btn btn-warning mybtn">저장하기</button>
+    </div>
+</div>
+<div class="mybox" id="show-list">
+
+</div>
+</body>
+</html>
