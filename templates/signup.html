@@ -87,8 +87,14 @@
                     pwd_re_give: password_check
                 },
                 success: function (response) {
-                    alert("회원가입을 축하드립니다!")
-                    window.location.replace("/")
+                    console.log(response)
+                    if (response['result'] =='success') {
+                        alert("회원가입을 축하드립니다!")
+                        window.location.replace("/")
+                    } else {
+                        alert(response['msg'])
+                        window.location.replace("/signup.html")
+                    }
                 }
             });
 
