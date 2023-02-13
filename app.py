@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.SECRET_KEY = '123'
 
 from pymongo import MongoClient
-client = MongoClient('mongodb+srv://test:sparta@Cluster0.mhvqxjc.mongodb.net/?retryWrites=true&w=majority')
+client = MongoClient(')
 
 db = client.dbsparta
 
